@@ -31,6 +31,13 @@ Appwrite:
 - `gemini-3.1-flash-live-preview` — optional realtime voice P1
 - `gemini-embedding-2` — vector retrieval when justified/post-P0
 
+> **Superseded in part:** `docs/adr/ADR-001-gemini-3-8-flash.md` upgrades the
+> primary model to `gemini-3.8-flash` (fallback `gemini-3.7-flash`), and
+> `docs/adr/ADR-002-multi-provider-ai-routing.md` adds Groq/Cloudflare/
+> OpenRouter as per-responsibility routing inside `ai-gateway`. The
+> `gemini-3.1-flash-live-preview` voice pin is unchanged. See
+> `config/project-decisions.yaml` for the current values.
+
 ### Maps
 - MapLibre GL JS
 - OpenStreetMap-compatible tiles/source with required attribution

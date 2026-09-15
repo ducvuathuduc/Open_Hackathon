@@ -94,7 +94,9 @@ figma-make-app/
 | TanStack Query | Installed for the upcoming Appwrite read/cache boundary; no query hooks until a table is provisioned |
 | Zod | Installed for the upcoming Function-response validation boundary; no live AI/API response exists yet |
 | PWA plugin/service worker | Not installed; no manifest/offline caching |
-| Appwrite Auth | Browser SDK wired and anonymous-session entry added; TablesDB/Storage/Realtime/Functions remain unprovisioned |
+| Appwrite Auth | Browser SDK wired, anonymous-session entry added |
+| Appwrite TablesDB / Storage | Database + temp-media bucket provisioned (IDs in `config/appwrite-resources.yaml`); `user_task_progress` table not yet created, so persistence fails closed to local-only state until it exists |
+| Appwrite Functions | `ai-gateway` / `data-worker` not yet created; see `docs/adr/ADR-002-multi-provider-ai-routing.md` for the intended internal routing once built |
 | `gemini-3.7-flash` / live / embeddings | Not called; Lens/Sim/Study use static seed responses |
 | Real persistence for skills/tasks/saved items | In-memory `useState` only; resets on reload |
 
