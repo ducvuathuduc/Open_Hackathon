@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KnowledgeFact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "factId",
+    "countryCode",
+    "category",
+    "contextKey",
+    "claim",
+    "sourceId",
+    "authorityLevel",
+    "checkedAt",
+    "confidence",
+    "verificationStatus"
+  ],
+  "properties": {
+    "factId": {
+      "type": "string"
+    },
+    "countryCode": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "city": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "universityId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "category": {
+      "type": "string"
+    },
+    "contextKey": {
+      "type": "string"
+    },
+    "claim": {
+      "type": "string"
+    },
+    "actionableAdvice": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sourceId": {
+      "type": "string"
+    },
+    "authorityLevel": {
+      "type": "string",
+      "enum": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ]
+    },
+    "checkedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "validUntil": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "verificationStatus": {
+      "type": "string",
+      "enum": [
+        "official_verified",
+        "university_verified",
+        "research_backed",
+        "community_verified",
+        "needs_review",
+        "stale",
+        "unverified"
+      ]
+    }
+  }
+}

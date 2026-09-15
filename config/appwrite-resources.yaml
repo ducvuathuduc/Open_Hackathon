@@ -1,0 +1,63 @@
+# Foundation Lock resource manifest
+#
+# Logical names are frozen from docs/06_APPWRITE_SCHEMA.md. Create these in
+# the Appwrite Console (or deployment automation) before enabling the
+# matching feature. Values marked <required> are intentionally not invented.
+# Do not put an Appwrite server API key in this repository.
+version: '1.0'
+project:
+  id: '6aa924ad000809c81bdf'
+  endpoint: 'https://sgp.cloud.appwrite.io/v1'
+  web_platform:
+    name: 'YapYep Web'
+    development_hostname: 'localhost'
+    production_hostname: '<Appwrite Site domain required>'
+database:
+  id: '6aa938f40031bab74390'
+  logical_name: 'yapyep'
+  p0_tables:
+    - student_profiles
+    - my_dna_profiles
+    - journeys
+    - countries
+    - country_dna
+    - universities
+    - knowledge_sources
+    - knowledge_facts
+    - passport_tasks
+    - user_task_progress
+    - lens_sessions
+    - practice_scenarios
+    - practice_sessions
+    - skill_profiles
+  social_wave_tables:
+    - social_profiles
+    - matches
+    - conversations
+    - messages
+    - local_questions
+    - local_answers
+    - blocks
+    - reports
+    - places
+storage:
+  temp_media_bucket_id: '6aa93973000a68a39068'
+  policy: 'temporary media only; delete or expire originals after processing unless explicitly saved'
+functions:
+  - id: ai-gateway
+    responsibility: 'lens, tone-check, reply, sim, study, optional embeddings'
+    routing: docs/adr/ADR-002-multi-provider-ai-routing.md
+    required_server_env:
+      - APPWRITE_API_KEY
+      - GEMINI_API_KEY
+      - GROQ_API_KEY
+      - CLOUDFLARE_API_TOKEN
+      - CLOUDFLARE_ACCOUNT_ID
+      - OPENROUTER_API_KEY
+  - id: data-worker
+    responsibility: 'source ingestion, fact extraction, freshness rechecks, data seed/update'
+    required_server_env:
+      - APPWRITE_API_KEY
+
+# Permission and index requirements are defined in docs/06_APPWRITE_SCHEMA.md.
+# This manifest is intentionally declarative, not a source of credentials.

@@ -12,6 +12,7 @@ import Study from "./features/Study";
 import { Explore, PlaceDetail } from "./features/Explore";
 import { ConnectHome, MatchProfile, Chat, AskALocal } from "./features/Connect";
 import { Profile, Settings, Compass } from "./features/Profile";
+import { ensureAnonymousSession } from "./lib/appwrite/session";
 import type { PassportCard } from "./data/passports";
 import type { Place, PlaceCategory } from "./data/places";
 import type { Person } from "./data/people";
@@ -36,6 +37,10 @@ function Root() {
   if (!onboarded)
     return (
       <Onboarding
+        onStart={async () => {
+          const result = await ensureAnonymousSession();
+          return result.ok ? { ok: true } : { ok: false, message: result.message };
+        }}
         onComplete={({ home, host, city, university, myDna }) => {
           setCustom({ ...makeCustomJourney(home, host, myDna), city, university, myDna, home, host });
           setOnboarded(true);

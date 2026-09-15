@@ -1,0 +1,90 @@
+spec_version: '1.0'
+frozen_at: '2026-09-15'
+product_name: YapYep
+positioning: ASEAN Student Adaptation Network
+platform: mobile-first web/PWA
+current_frontend:
+- Vite
+- React
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Motion
+- TanStack Query
+- Zod
+do_not_migrate_during_hackathon:
+- Next.js
+- React Native
+- Flutter
+backend: Appwrite
+ai_primary: gemini-3.8-flash
+ai_primary_fallback: gemini-3.7-flash
+ai_primary_decision: docs/adr/ADR-001-gemini-3-8-flash.md
+ai_live_optional: gemini-3.1-flash-live-preview
+embedding_optional: gemini-embedding-2
+ai_routing_decision: docs/adr/ADR-002-multi-provider-ai-routing.md
+ai_text_fast: groq/gpt-oss-120b
+ai_text_cheap_fallback: groq/qwen3-27b
+ai_speech_to_text: groq/whisper-large-v3-turbo
+ai_emergency_fallback: cloudflare-workers-ai
+ai_last_resort_router: openrouter
+bottom_nav:
+- Today
+- Passport
+- Lens
+- Explore
+- Connect
+hero_features:
+- YapLens
+- YapSim
+- Study Copilot
+p0:
+- Journey Setup
+- MyDNA
+- PairDNA
+- Today
+- Country Passport
+- YapLens text
+- YapLens screenshot
+- source/confidence
+- YapSim
+- skill persistence
+- Auth
+- deployed mobile URL
+country_scope:
+- BN
+- KH
+- ID
+- LA
+- MY
+- MM
+- PH
+- SG
+- TH
+- TL
+- VN
+deep_demo_countries:
+- VN
+- SG
+- TH
+- ID
+- MY
+- PH
+design_tokens:
+  primary: '#3157D5'
+  accent: '#FFB648'
+  background: '#F6F7F3'
+  surface: '#FFFFFF'
+  text: '#172033'
+  muted: '#667085'
+  success: '#169B62'
+  warning: '#F59E0B'
+  error: '#E5484D'
+prohibited_changes_without_approval:
+- framework migration
+- new bottom-nav tab
+- rename DNA concepts
+- remove source/freshness
+- unsourced administrative guidance
+- new state-management framework
+- new UI library

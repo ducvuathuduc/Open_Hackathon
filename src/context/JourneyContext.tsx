@@ -1,8 +1,10 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { CountryCode } from "../data/countries";
 import { JOURNEYS, journeyById, type Journey } from "../data/journeys";
 import { computePairDNA, type PairDNA } from "../data/pairDNA";
 import type { DnaScores } from "../data/dna";
+import { account, isAppwriteConfigured } from "../lib/appwrite/client";
+import { fetchTaskProgress, setTaskProgress } from "../lib/appwrite/taskProgress";
 
 export type ForcedState = "default" | "loading" | "empty" | "error" | "offline" | "permission" | "lowconf" | "stale";
 
@@ -39,6 +41,27 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [forced, setForced] = useState<ForcedState>("default");
   const [savedTasks, setSavedTasks] = useState<Record<string, boolean>>({});
   const [saved, setSavedItems] = useState<SavedItem[]>([]);
+  const userIdRef = useRef<string | null>(null);
+
+  // Load persisted task progress once a session exists (set up during onboarding).
+  useEffect(() => {
+    if (!isAppwriteConfigured) return;
+    let cancelled = false;
+    account
+      .get()
+      .then(async (user) => {
+        if (cancelled) return;
+        userIdRef.current = user.$id;
+        const persisted = await fetchTaskProgress(user.$id);
+        if (!cancelled && Object.keys(persisted).length) setSavedTasks((s) => ({ ...s, ...persisted }));
+      })
+      .catch(() => {
+        // No session yet (pre-onboarding) — task state stays local-only until one exists.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const pair = useMemo(() => computePairDNA(journey.home, journey.host, journey.myDna as DnaScores), [journey]);
 
@@ -55,7 +78,13 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     forced,
     setForced,
     savedTasks,
-    toggleTask: (id) => setSavedTasks((s) => ({ ...s, [id]: !s[id] })),
+    toggleTask: (id) => {
+      setSavedTasks((s) => {
+        const next = !s[id];
+        if (userIdRef.current) void setTaskProgress(userIdRef.current, id, next);
+        return { ...s, [id]: next };
+      });
+    },
     saved,
     toggleSave: (item) =>
       setSavedItems((list) => (list.some((s) => s.id === item.id) ? list.filter((s) => s.id !== item.id) : [item, ...list])),
