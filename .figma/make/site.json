@@ -1,0 +1,10 @@
+{
+  "description": "Provides a simple and intuitive platform for users to communicate and share messages efficiently in real time.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

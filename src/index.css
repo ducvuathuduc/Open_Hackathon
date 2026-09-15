@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+
+  --color-primary: #3157d5;
+  --color-primary-soft: #eaeffb;
+  --color-amber: #ffb648;
+  --color-amber-soft: #fff3df;
+  --color-canvas: #f6f7f3;
+  --color-surface: #ffffff;
+  --color-ink: #172033;
+  --color-muted: #667085;
+  --color-success: #169b62;
+  --color-success-soft: #e5f4ec;
+  --color-warning: #f59e0b;
+  --color-warning-soft: #fdf1dc;
+  --color-error: #e5484d;
+  --color-error-soft: #fceceb;
+  --color-line: #eaecef;
+
+  --radius-card: 20px;
+  --radius-btn: 14px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 2px rgba(23, 32, 51, 0.04), 0 8px 24px rgba(23, 32, 51, 0.05);
+  --shadow-pop: 0 12px 40px rgba(23, 32, 51, 0.14);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: #e7e9e3;
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hide scrollbars until scrolling */
+.scroll-area {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scroll-area::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes yy-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.yy-fade {
+  animation: yy-fade 0.28s ease both;
+}
+
+@keyframes yy-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 0.85;
+  }
+}
+.yy-pulse {
+  animation: yy-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes yy-shimmer {
+  0% {
+    background-position: -400px 0;
+  }
+  100% {
+    background-position: 400px 0;
+  }
+}
+.yy-skeleton {
+  background: linear-gradient(90deg, #eef0ec 25%, #f6f7f3 37%, #eef0ec 63%);
+  background-size: 800px 100%;
+  animation: yy-shimmer 1.4s infinite linear;
+}
+
+@keyframes yy-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+.yy-ring::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 2px solid var(--color-primary);
+  animation: yy-ring 1.8s ease-out infinite;
+}
