@@ -1,17 +1,31 @@
 # 02 — UI / UX Specification
 
+> **Direction update (2026-09-15):** `docs/adr/ADR-003-monochrome-ui-and-reference-shift.md`
+> is now the binding visual/interaction direction. It demotes Qiao to an
+> IA-only reference, freezes per-area references (Speak, Praktika, Duolingo,
+> HelloTalk, Unibuddy, Airbnb-like map/card), replaces the token set below
+> with the monochrome palette, and replaces the centered-phone-shell desktop
+> MVP with real responsive layout. Where this document still shows the old
+> tokens/geometry, the ADR wins. The normative current values also live in
+> `config/project-decisions.yaml` (`design_tokens`, `layout`, `ui_hard_rules`).
+
 ## 1. UX strategy
 
-Primary shell reference: **Qiao-style international-student utility UX**:
-- calm card hierarchy
-- personalized home
-- staged journey/checklist
-- guide + map + community mental model
+Qiao is the **information-architecture reference only** (phased journey,
+checklist, country utility) — not the visual reference.
 
-Interaction references:
-- Country Navigator: assessment/gap visualization
-- Speak/Praktika: roleplay and feedback
-- HelloTalk/Unibuddy: match/chat/icebreakers
+Per-area interaction references (patterns only, never branding — see ADR-003):
+- Today / learning home: **Speak** — clean hierarchy, lesson cards,
+  personalized Learn → Practice → Apply loop, low noise.
+- YapSim: **Praktika + Duolingo** — immersive conversation, contextual
+  suggestions, correction, transcript, retry, score delta.
+- Connect chat: **HelloTalk** — chat-centric UX, in-thread
+  translate/correct, voice.
+- Matching: **Unibuddy** — match cards, shared attributes, AI icebreaker,
+  safety (block/report).
+- Progress: Duolingo mechanics (score delta, mastery, repetition) without
+  hearts/shop/cartoon clutter.
+- Explore: Airbnb-like map + bottom sheet + place context (card↔marker sync).
 
 Do not copy logos, mascots, proprietary art, exact branded assets, or copyrighted screen reproductions.
 
@@ -19,8 +33,15 @@ Do not copy logos, mascots, proprietary art, exact branded assets, or copyrighte
 
 - Mobile-first web/PWA
 - Primary viewport: 390×844
-- Breakpoints: 360, 390, 430, 768, 1280
-- Desktop MVP: centered mobile-oriented shell, max content width around 480–540px
+- Real responsive, breakpoints follow content (not device models):
+  - 360–599 mobile: bottom nav, single column, 16px gutters, sticky primary
+    CTA, sheets instead of side panels
+  - 600–1023 tablet / narrow laptop: compact navigation rail, 2-column only
+    when meaningful
+  - 1024+ desktop: left navigation rail ~220px, main working column
+    680–800px, optional context panel 280–320px; Lens/Chat/Sim must use the
+    space properly
+- Do not render a desktop page as a tiny centered phone in empty space.
 - Native app is not in hackathon scope
 
 ## 3. Primary navigation
@@ -41,17 +62,21 @@ Profile/avatar opens:
 
 YapSim appears contextually from Today/Lens/Study.
 
-## 4. Visual tokens
+## 4. Visual tokens — monochrome student product
 
-- Primary Blue `#3157D5`
-- Warm Amber `#FFB648`
-- Background `#F6F7F3`
+- Background `#F7F7F5`
 - Surface `#FFFFFF`
-- Primary Text `#172033`
-- Secondary Text `#667085`
-- Success `#169B62`
-- Warning `#F59E0B`
-- Error `#E5484D`
+- Primary text `#111111`
+- Secondary text `#6B6B68`
+- Border `#E5E5E1`
+- Black CTA `#111111`
+- Accent cobalt `#3157D5` — only when truly needed
+- Accent soft `#EEF2FF`
+- Success `#1F7A45`
+- Warning `#B7791F`
+- Danger `#C43B3B`
+- Country flags are the primary source of color; the rest of the UI stays
+  restrained.
 
 Typography:
 - Geist preferred
@@ -61,10 +86,20 @@ Spacing:
 `4 / 8 / 12 / 16 / 24 / 32 / 48`
 
 Geometry:
-- Cards: 20px radius
-- Buttons: 14–16px radius
-- Page horizontal padding: ~20–24px
-- Touch target: minimum 44×44px
+- Cards/surfaces: 10–14px radius, 1px border, no default card shadow
+- Buttons: 10–14px radius (sticky primary CTA on mobile)
+- Page horizontal padding: ~16px gutters on mobile
+- Touch target: 44px minimum (Apple HIG, binding); 48px best practice
+  (web.dev); WCAG 2.2 AA 24px floor with spacing/equivalent/inline
+  exceptions
+
+Hard rules (binding):
+- NO purple AI gradient, glowing orb, glassmorphism, 28–32px radius
+  everywhere, default shadow on every card, rainbow dashboard, fake AI
+  metrics, decorative emojis as icons, five competing CTAs on one screen,
+  "everything is a card", lorem ipsum, or desktop page rendered as a tiny
+  centered phone in empty space.
+- Shadows only on overlays/floating sheets.
 
 Avoid:
 - neon purple AI gradients

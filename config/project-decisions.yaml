@@ -71,15 +71,45 @@ deep_demo_countries:
 - MY
 - PH
 design_tokens:
-  primary: '#3157D5'
-  accent: '#FFB648'
-  background: '#F6F7F3'
+  background: '#F7F7F5'
   surface: '#FFFFFF'
-  text: '#172033'
-  muted: '#667085'
-  success: '#169B62'
-  warning: '#F59E0B'
-  error: '#E5484D'
+  text: '#111111'
+  secondary: '#6B6B68'
+  border: '#E5E5E1'
+  cta_black: '#111111'
+  accent_cobalt: '#3157D5'
+  accent_soft: '#EEF2FF'
+  success: '#1F7A45'
+  warning: '#B7791F'
+  danger: '#C43B3B'
+design_direction: docs/adr/ADR-003-monochrome-ui-and-reference-shift.md
+ui_references:
+  today_learning_home: Speak
+  yapsim: Praktika + Duolingo
+  connect_chat: HelloTalk
+  matching: Unibuddy
+  passport_onboarding_ia_only: Qiao
+  progress_mechanics: Duolingo-without-clutter
+  explore: Airbnb-like-map-card
+ui_hard_rules:
+- no-purple-ai-gradient
+- no-glowing-orb
+- no-glassmorphism
+- no-28-32px-radius-everywhere
+- no-default-shadow-on-every-card
+- no-rainbow-dashboard
+- no-fake-ai-metrics
+- no-decorative-emojis-as-icons
+- no-five-competing-ctas
+- no-everything-is-a-card
+- no-lorem-ipsum
+- no-tiny-centered-phone-on-desktop
+layout:
+  mobile_360_599: bottom-nav single-column 16px-gutters sticky-primary-cta sheets-not-side-panels
+  tablet_600_1023: compact-rail 2-column-only-when-meaningful
+  desktop_1024_plus: left-rail-220px main-column-680-800px optional-context-panel-280-320px
+  breakpoints_follow_content: true
+  touch_target_minimum_px: 44
 prohibited_changes_without_approval:
 - framework migration
 - new bottom-nav tab

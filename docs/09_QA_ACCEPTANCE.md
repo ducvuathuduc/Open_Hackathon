@@ -37,16 +37,18 @@ Verify at:
 - 360px
 - 390px
 - 430px
+- 600–1023 tablet/narrow-laptop range
+- 1024+ desktop layout (rail + working column + optional context panel)
 
 Primary 390×844.
 
 Check:
 - no horizontal scrolling
-- nav safe area
+- nav safe area (bottom nav on mobile, rail on tablet/desktop)
 - keyboard does not hide core composer
-- touch targets >=44px
+- touch targets >=44px (Apple HIG binding; 48px best practice)
 - readable text
-- bottom sheets usable
+- bottom sheets usable on mobile; Lens/Chat/Sim use desktop space properly
 
 ## 4. AI failure states
 

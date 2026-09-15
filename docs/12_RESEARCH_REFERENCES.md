@@ -62,6 +62,31 @@ Verified/researched on **2026-09-15**.
 - Embeddings / Gemini Embedding 2  
   https://ai.google.dev/gemini-api/docs/embeddings
 
+## Platform / accessibility references (verified 2026-09-15, supporting ADR-003)
+
+- Apple Human Interface Guidelines (layout hierarchy, grouping via spacing,
+  top/leading placement, 44×44pt minimum touch targets, one font with
+  limited styles, strong contrast)
+  https://developer.apple.com/design/human-interface-guidelines
+  https://developer.apple.com/design/human-interface-guidelines/layout
+
+- WCAG 2.2 SC 2.5.8 Target Size Minimum, Level AA (≥24×24 CSS px; spacing /
+  equivalent / inline / user-agent / essential exceptions; 44×44 best
+  practice)
+  https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum
+  https://www.w3.org/TR/WCAG22/
+
+- web.dev accessible tap targets (~48px targets, ~8px separation,
+  `any-pointer: coarse`)
+  https://web.dev/articles/accessible-tap-targets
+  https://web.dev/articles/accessible-responsive-design
+  https://web.dev/articles/responsive-web-design-basics
+
+- Airbnb-like map + bottom-sheet UX (full-screen map, peek/half/full
+  detents, two-way card↔marker sync) — interaction pattern only; original
+  branding required. Researched via web search 2026-09-15; vendor docs vary
+  by SDK, so implementation must verify against the chosen map SDK.
+
 ## Hoplite
 
 - Docs / mental model / agent skills  
@@ -86,22 +111,25 @@ Verified/researched on **2026-09-15**.
 
 ## Competitor / UX pattern references
 
-- Qiao  
+Per-area interaction references (frozen by ADR-003; patterns only, never
+branding). Qiao is IA-only; see ADR-003 for the full reference table with
+verified feature notes.
+
+- Qiao (IA only: phased journey, checklist, country utility)
   https://qiaoguide.com/en/features
 
-- Country Navigator  
+- Country Navigator
   https://www.countrynavigator.com/features
 
-- Speak  
-  https://www.speak.com/
+- Speak (Today / learning home: Learn → Practice → Apply, personalized lessons)
 
-- Praktika  
+- Praktika (YapSim: personal study plan, contextual suggestions, corrections, free conversation)
   https://praktika.ai/
 
-- HelloTalk  
+- HelloTalk (Connect: chat-centric UX, in-thread translate/correct, voice)
   https://www.hellotalk.com/en/features
 
-- Unibuddy  
+- Unibuddy (matching: shared attributes, AI icebreaker, safety)
   https://unibuddy.com/
 
 ## Official country-source examples already verified in research

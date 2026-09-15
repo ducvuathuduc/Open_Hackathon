@@ -25,13 +25,13 @@ Today / Passport / Lens / Explore / Connect.
 ### Product formula
 MyDNA × Home CountryDNA × Host CountryDNA × City/University × Context × Real People → PairDNA.
 
-### Primary UX reference
-Qiao-like calm international-student dashboard/checklist/map/community structure.
+### UX references (IA + per-area interaction — see ADR-003; Qiao is IA-only)
 
-### Interaction references
-- Speak/Praktika: practice and voice session
-- Country Navigator: DNA/gap/progress
-- HelloTalk/Unibuddy: matching/chat
+Qiao-like calm international-student journey/checklist/country-utility
+information architecture. Per-area interaction references: Speak (Today /
+learning home), Praktika + Duolingo (YapSim), HelloTalk (Connect chat),
+Unibuddy (matching), Duolingo mechanics without clutter (progress),
+Airbnb-like map + bottom sheet (Explore).
 
 Keep visual identity original.
 
@@ -108,7 +108,7 @@ Never hide uncertainty.
 
 ## 8. Figma Make prompt starter
 
-> Build the complete mobile-first product UX for YapYep — ASEAN Student Adaptation Network. Use the attached references for interaction patterns, not branding. Support all 11 ASEAN countries and directional home→host journeys. Follow the frozen navigation Today, Passport, Lens, Explore, Connect. MyDNA is personal and never inferred from nationality; CountryDNA is knowledge; ContextDNA is situation-specific; PairDNA is directional. Build reusable components and realistic loading/error/offline/low-confidence/stale states. Prioritize the hero flow Lens→Practice→YapSim→Skill update. Design for 390×844 first using the specified YapYep design tokens. Before screens, output IA, screen inventory, component map, flow map and state matrix.
+> Build the complete mobile-first product UX for YapYep — ASEAN Student Adaptation Network. Qiao is the information-architecture reference only (phased journey, checklist, country utility). Per-area interaction references: Speak for Today/learning home (Learn → Practice → Apply), Praktika + Duolingo for YapSim (immersive conversation, suggestions, correction, transcript, retry), HelloTalk for Connect chat (in-thread translate/correct, voice), Unibuddy for matching (match cards, shared attributes, AI icebreaker, safety), Duolingo mechanics without clutter for progress (score delta, mastery), Airbnb-like map + bottom sheet for Explore. Use the attached references for interaction patterns, not branding. Support all 11 ASEAN countries and directional home→host journeys. Follow the frozen navigation Today, Passport, Lens, Explore, Connect. MyDNA is personal and never inferred from nationality; CountryDNA is knowledge; ContextDNA is situation-specific; PairDNA is directional. Monochrome student-product tokens (background #F7F7F5, surface #FFFFFF, text #111111, secondary #6B6B68, border #E5E5E1, black CTA #111111, cobalt accent #3157D5 only when needed, soft #EEF2FF, success #1F7A45, warning #B7791F, danger #C43B3B; flags are the main color). Radius 10–14px, 1px borders, shadows on overlays only. No purple gradient, orb, glassmorphism, rainbow dashboard, fake metrics, emoji icons, or tiny centered phone on desktop — build real responsive (mobile bottom nav / tablet rail / desktop 220px rail + 680–800px column + optional context panel). Build reusable components and realistic loading/error/offline/low-confidence/stale states. Prioritize the hero flow Lens→Practice→YapSim→Skill update. Design for 390×844 first using the specified YapYep design tokens. Before screens, output IA, screen inventory, component map, flow map and state matrix.
 
 ## 9. Handoff
 
