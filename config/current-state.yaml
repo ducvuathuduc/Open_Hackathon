@@ -4,6 +4,7 @@ build:
   typecheck: passing
   production_build: passing
   preview_port_fix: reported fixed
+foundation_lock: implemented
 implemented_reported:
 - 13-step onboarding
 - 11 ASEAN country selector
@@ -16,11 +17,14 @@ implemented_reported:
 - passport source/review fields
 - 6 study modes
 - state-matrix dev toggles
+- Appwrite browser client and anonymous-session onboarding entry
+- Foundation resource manifest and public/server environment boundary
 not_fully_verified_reported:
 - Lens→Reply→YapSim→skill update full browser flow
 - Bank checklist→Explore→complete full flow
 - all seeded directional pair changes
 - measured touch targets/contrast
 - real Appwrite persistence/auth
+- Appwrite TablesDB/Storage/Functions resource provisioning
 - real Gemini/RAG execution
 - real realtime chat

@@ -25,7 +25,7 @@ const GOALS = ["Speak with confidence", "Understand the culture", "Do well acade
 const INTERESTS = ["AI", "Coffee", "Football", "Photography", "K-pop", "Startups", "Film", "Fashion", "Food", "Travel", "Gaming", "Music"];
 const LANG_LEVELS = ["A1", "A2", "B1", "B2", "C1", "Native"];
 
-export default function Onboarding({ onComplete }: { onComplete: (data: { home: CountryCode; host: CountryCode; city: string; university: string; myDna: ReturnType<typeof deriveMyDna> }) => void }) {
+export default function Onboarding({ onComplete, onStart }: { onComplete: (data: { home: CountryCode; host: CountryCode; city: string; university: string; myDna: ReturnType<typeof deriveMyDna> }) => void; onStart: () => Promise<{ ok: boolean; message?: string }> }) {
   const [step, setStep] = useState<Step>("welcome");
   const [home, setHome] = useState<CountryCode | null>(null);
   const [host, setHost] = useState<CountryCode | null>(null);
@@ -36,6 +36,8 @@ export default function Onboarding({ onComplete }: { onComplete: (data: { home: 
   const [langLevel, setLangLevel] = useState("B1");
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [qIdx, setQIdx] = useState(0);
+  const [starting, setStarting] = useState(false);
+  const [startError, setStartError] = useState<string | null>(null);
 
   const myDna = useMemo(() => deriveMyDna(answers), [answers]);
   const pair = useMemo(() => (home && host ? computePairDNA(home, host, myDna) : null), [home, host, myDna]);
@@ -45,6 +47,15 @@ export default function Onboarding({ onComplete }: { onComplete: (data: { home: 
 
   function finish() {
     if (home && host) onComplete({ home, host, city: city || COUNTRIES[host].name, university: university || "Host University", myDna });
+  }
+
+  async function startGuestJourney() {
+    setStartError(null);
+    setStarting(true);
+    const result = await onStart();
+    setStarting(false);
+    if (result.ok) setStep("home");
+    else setStartError(result.message ?? "We could not start your secure session. Please try again.");
   }
 
   /* --------------------------------- Welcome -------------------------------- */
@@ -63,8 +74,9 @@ export default function Onboarding({ onComplete }: { onComplete: (data: { home: 
           </p>
         </div>
         <div className="space-y-3">
-          <Button variant="amber" size="lg" full onClick={() => setStep("signin")}>Get started</Button>
-          <button className="w-full text-[14px] font-medium text-white/80" onClick={() => setStep("signin")}>I already have an account</button>
+          {startError && <p role="alert" className="rounded-card bg-white/15 px-4 py-3 text-center text-[13px] leading-relaxed text-white">{startError}</p>}
+          <Button variant="amber" size="lg" full disabled={starting} onClick={startGuestJourney}>{starting ? "Starting securely…" : "Try YapYep"}</Button>
+          <p className="text-center text-[12px] leading-relaxed text-white/75">Start securely as a guest. You can create an account to save your progress later.</p>
         </div>
       </div>
     );

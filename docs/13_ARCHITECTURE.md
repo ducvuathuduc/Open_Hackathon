@@ -23,6 +23,10 @@ figma-make-app/
     ├── App.tsx                   Root composition: providers, tab switch, overlay stack (nav.push/pop)
     ├── index.css                 Tailwind v4 import + design tokens (fonts, colors)
     ├── vite-env.d.ts
+    ├── lib/
+    │   └── appwrite/
+    │       ├── client.ts         Browser SDK initialization from public VITE_APPWRITE_* identifiers
+    │       └── session.ts        Anonymous-session bootstrap with safe user-readable failure handling
     ├── context/
     │   ├── JourneyContext.tsx    Global state: active Journey, computed PairDNA, forced UI state,
     │   │                         saved items, task completion — all in-memory (useState), no persistence
@@ -87,10 +91,10 @@ figma-make-app/
 |---|---|
 | shadcn/ui | Not installed; custom `ui.tsx` primitives instead |
 | Motion (animation) | Not installed |
-| TanStack Query | Not installed; no async data yet to justify it |
-| Zod | Not installed; no AI/API boundary to validate yet |
+| TanStack Query | Installed for the upcoming Appwrite read/cache boundary; no query hooks until a table is provisioned |
+| Zod | Installed for the upcoming Function-response validation boundary; no live AI/API response exists yet |
 | PWA plugin/service worker | Not installed; no manifest/offline caching |
-| Appwrite Auth/TablesDB/Storage/Realtime/Functions | Not present; all data is static TS |
+| Appwrite Auth | Browser SDK wired and anonymous-session entry added; TablesDB/Storage/Realtime/Functions remain unprovisioned |
 | `gemini-3.7-flash` / live / embeddings | Not called; Lens/Sim/Study use static seed responses |
 | Real persistence for skills/tasks/saved items | In-memory `useState` only; resets on reload |
 
@@ -125,6 +129,11 @@ functions/                        NEW, outside src/ — Appwrite Functions (serv
 ├── ai-gateway/                   routes: lens, tone-check, reply, sim, study, (embedding)
 └── data-worker/                  routes/jobs: ingest source, extract facts, recheck freshness
 ```
+
+`config/appwrite-resources.yaml` is the companion resource manifest. It fixes
+the logical table/function names but deliberately leaves resource IDs blank
+until their owner provisions them in the Appwrite Console. That avoids
+committing secrets or guessing a database/bucket identifier.
 
 Rationale for keeping `src/data` as-is: it already matches the shapes the Appwrite schema and AI
 schemas expect (e.g. `passports.ts` already carries `officialSource`/`lastReviewed`/`verificationStatus`

@@ -17,7 +17,9 @@ do_not_migrate_during_hackathon:
 - React Native
 - Flutter
 backend: Appwrite
-ai_primary: gemini-3.7-flash
+ai_primary: gemini-3.8-flash
+ai_primary_fallback: gemini-3.7-flash
+ai_primary_decision: docs/adr/ADR-001-gemini-3-8-flash.md
 ai_live_optional: gemini-3.1-flash-live-preview
 embedding_optional: gemini-embedding-2
 bottom_nav:
