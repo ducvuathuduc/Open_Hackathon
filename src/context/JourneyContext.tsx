@@ -1,10 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useRef, useState, type ReactNode } from "react";
 import type { CountryCode } from "../data/countries";
 import { JOURNEYS, journeyById, type Journey } from "../data/journeys";
 import { computePairDNA, type PairDNA } from "../data/pairDNA";
 import type { DnaScores } from "../data/dna";
-import { account, isAppwriteConfigured } from "../lib/appwrite/client";
 import { fetchTaskProgress, setTaskProgress } from "../lib/appwrite/taskProgress";
+import { loadJourney, saveJourney } from "../lib/appwrite/journeyPersistence";
+import { currentUser } from "../lib/appwrite/user";
 
 export type ForcedState = "default" | "loading" | "empty" | "error" | "offline" | "permission" | "lowconf" | "stale";
 
@@ -21,6 +22,7 @@ interface JourneyCtx {
   journey: Journey;
   pair: PairDNA;
   setJourneyId: (id: string) => void;
+  hydrate: (userId: string, journey: Journey, tasks: Record<string, boolean>) => void;
   /** override home/host/myDna for a freshly onboarded user */
   setCustom: (patch: Partial<Journey>) => void;
   /** live-switch origin/destination while keeping the active MyDNA (ASEAN Compass) */
@@ -43,25 +45,14 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [saved, setSavedItems] = useState<SavedItem[]>([]);
   const userIdRef = useRef<string | null>(null);
 
-  // Load persisted task progress once a session exists (set up during onboarding).
-  useEffect(() => {
-    if (!isAppwriteConfigured) return;
-    let cancelled = false;
-    account
-      .get()
-      .then(async (user) => {
-        if (cancelled) return;
-        userIdRef.current = user.$id;
-        const persisted = await fetchTaskProgress(user.$id);
-        if (!cancelled && Object.keys(persisted).length) setSavedTasks((s) => ({ ...s, ...persisted }));
-      })
-      .catch(() => {
-        // No session yet (pre-onboarding) — task state stays local-only until one exists.
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const persistJourney = (next: Journey) => {
+    void (async () => {
+      const result = await currentUser();
+      if (!result.ok) return;
+      userIdRef.current = result.user.$id;
+      await saveJourney(result.user.$id, next);
+    })();
+  };
 
   const pair = useMemo(() => computePairDNA(journey.home, journey.host, journey.myDna as DnaScores), [journey]);
 
@@ -69,11 +60,22 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     journey,
     pair,
     setJourneyId: (id) => setJourney(journeyById(id)),
-    setCustom: (patch) => setJourney((j) => ({ ...j, ...patch })),
+    hydrate: (userId, nextJourney, tasks) => {
+      userIdRef.current = userId;
+      setJourney(nextJourney);
+      setSavedTasks(tasks);
+    },
+    setCustom: (patch) => setJourney((j) => {
+      const next = { ...j, ...patch };
+      persistJourney(next);
+      return next;
+    }),
     setRoute: (home, host) =>
       setJourney((j) => {
         const p = computePairDNA(home, host, j.myDna as DnaScores);
-        return { ...j, home, host, readiness: p.readiness };
+        const next = { ...j, home, host, readiness: p.readiness };
+        persistJourney(next);
+        return next;
       }),
     forced,
     setForced,
@@ -82,6 +84,13 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       setSavedTasks((s) => {
         const next = !s[id];
         if (userIdRef.current) void setTaskProgress(userIdRef.current, id, next);
+        else {
+          void currentUser().then((result) => {
+            if (!result.ok) return;
+            userIdRef.current = result.user.$id;
+            return setTaskProgress(result.user.$id, id, next);
+          });
+        }
         return { ...s, [id]: next };
       });
     },

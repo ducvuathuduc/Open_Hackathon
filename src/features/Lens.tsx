@@ -5,9 +5,10 @@ import { Scroll } from "../components/shell";
 import { Card, Button, Segmented, RiskBadge, ConfidenceBadge, Badge, Notice, Toast } from "../components/ui";
 import { LENS_SAMPLES, type ReplyTone } from "../data/lens";
 import { COUNTRIES } from "../data/countries";
+import { interpretLens, type LensResult as GatewayLensResult } from "../lib/ai-contracts/lens";
 
 type Mode = "text" | "screenshot" | "camera" | "voice" | "conversation";
-type Phase = "input" | "scanning" | "result";
+type Phase = "input" | "scanning" | "result" | "error";
 
 const SCAN_STEPS = ["Processing input", "Detecting language", "Retrieving local sources", "Interpreting context", "Generating"];
 
@@ -18,19 +19,20 @@ export default function Lens() {
   const [phase, setPhase] = useState<Phase>("input");
   const [scanStep, setScanStep] = useState(0);
   const [text, setText] = useState("");
-  const result = LENS_SAMPLES[journey.host];
+  const [result, setResult] = useState<GatewayLensResult | null>(null);
+  const [error, setError] = useState("");
   const lowConf = forced === "lowconf";
 
-  useEffect(() => {
-    if (phase !== "scanning") return;
-    setScanStep(0);
-    const iv = setInterval(() => setScanStep((s) => (s < SCAN_STEPS.length - 1 ? s + 1 : s)), 520);
-    const done = setTimeout(() => setPhase("result"), SCAN_STEPS.length * 520 + 200);
-    return () => { clearInterval(iv); clearTimeout(done); };
-  }, [phase]);
+  useEffect(() => { if (phase !== "scanning") return; const iv = setInterval(() => setScanStep((s) => (s < SCAN_STEPS.length - 1 ? s + 1 : s)), 700); return () => clearInterval(iv); }, [phase]);
+  const run = async () => {
+    setError(""); setScanStep(0); setPhase("scanning");
+    try { setResult(await interpretLens({ inputType: "text", text, contextKey: "social", journey: { home: journey.home, host: journey.host, city: journey.city, university: journey.university } })); setPhase("result"); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : "YapLens is unavailable."); setPhase("error"); }
+  };
 
   if (phase === "scanning") return <Scanning step={scanStep} mode={mode} />;
-  if (phase === "result") return <LensResult onReset={() => { setPhase("input"); }} lowConf={lowConf} />;
+  if (phase === "result" && result) return <LensResult result={result} onReset={() => { setPhase("input"); setResult(null); }} lowConf={lowConf} />;
+  if (phase === "error") return <div className="flex h-full flex-col justify-center px-5"><Notice tone="error" icon="⚠️" title="YapLens unavailable" body={error} /><div className="mt-4"><Button full onClick={() => setPhase("input")}>Try again</Button></div></div>;
 
   /* ------------------------------- Input state ------------------------------ */
   if (forced === "permission" && (mode === "camera" || mode === "voice"))
@@ -88,8 +90,8 @@ export default function Lens() {
 
         {mode === "text" && (
           <div className="mt-4">
-            <Button size="lg" full disabled={!text.trim()} onClick={() => setPhase("scanning")}>Interpret</Button>
-            <button className="mt-3 w-full text-[13px] font-medium text-primary" onClick={() => { setText(result.original); }}>Use sample: "{result.original}"</button>
+            <Button size="lg" full disabled={!text.trim()} onClick={run}>Interpret</Button>
+            <button className="mt-3 w-full text-[13px] font-medium text-primary" onClick={() => { setText(LENS_SAMPLES[journey.host].original); }}>Use sample</button>
           </div>
         )}
       </Scroll>
@@ -137,10 +139,10 @@ function Scanning({ step, mode }: { step: number; mode: Mode }) {
   );
 }
 
-function LensResult({ onReset, lowConf }: { onReset: () => void; lowConf: boolean }) {
+function LensResult({ result, onReset, lowConf }: { result: GatewayLensResult; onReset: () => void; lowConf: boolean }) {
   const { journey, toggleSave, isSaved } = useJourney();
   const nav = useNav();
-  const r = LENS_SAMPLES[journey.host];
+  const r = { scenario: "YapLens interpretation", detectedLanguage: result.detectedLanguage, original: "Your submitted message", literal: result.literalMeaning, intent: result.likelyIntents.map((x) => x.explanation).join(" "), contextual: result.contextExplanation, expected: result.expectedNextAction, risk: result.misunderstandingRisk === "high" ? 75 : result.misunderstandingRisk === "medium" ? 50 : 25, confidence: result.confidence.label === "high" ? 85 : result.confidence.label === "medium" ? 60 : 35, sources: result.sources.map((s) => ({ label: s.title, type: `Tier ${s.authorityLevel}` })), recommendedAction: result.recommendedAction, replies: result.suggestedReplies.map((x) => ({ tone: x.mode === "very_respectful" ? "Very Respectful" : x.mode[0].toUpperCase() + x.mode.slice(1) as ReplyTone, text: x.text })), draftWarning: undefined };
   const confidence = lowConf ? 38 : r.confidence;
   const [tone, setTone] = useState<ReplyTone>("Neutral");
   const [toast, setToast] = useState(false);
@@ -199,9 +201,6 @@ function LensResult({ onReset, lowConf }: { onReset: () => void; lowConf: boolea
         <Card className="p-4">
           <p className="text-[14px] leading-relaxed text-ink">{reply.text}</p>
         </Card>
-        {r.draftWarning && (
-          <div className="mt-3"><Notice tone="error" icon="⚠️" title="Tone check on your draft" body={`"${r.draftWarning.draft}" — ${r.draftWarning.note}`} /></div>
-        )}
       </div>
 
       <div className="mt-5 flex gap-2">

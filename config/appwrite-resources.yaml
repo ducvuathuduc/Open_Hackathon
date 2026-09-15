@@ -30,6 +30,27 @@ database:
     - practice_scenarios
     - practice_sessions
     - skill_profiles
+    - passport_progress
+    - student_social_profiles
+    - conversations
+    - messages
+  foundation_bootstrap:
+    verified_at: '2026-09-15'
+    command: 'pnpm verify:appwrite'
+    tables:
+      - student_profiles
+      - journeys
+      - my_dna_profiles
+      - user_task_progress
+      - skill_profiles
+      - lens_sessions
+      - practice_sessions
+      - knowledge_sources
+      - knowledge_facts
+      - passport_progress
+      - student_social_profiles
+      - conversations
+      - messages
   social_wave_tables:
     - social_profiles
     - matches

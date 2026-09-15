@@ -19,6 +19,7 @@ implemented_reported:
 - state-matrix dev toggles
 - Appwrite browser client and anonymous-session onboarding entry
 - Foundation resource manifest and public/server environment boundary
+- Appwrite Foundation bootstrap verifies 13 assigned P0 TablesDB tables and the temp-media bucket
 not_fully_verified_reported:
 - Lens→Reply→YapSim→skill update full browser flow
 - Bank checklist→Explore→complete full flow
@@ -28,3 +29,4 @@ not_fully_verified_reported:
 - Appwrite TablesDB/Storage/Functions resource provisioning
 - real Gemini/RAG execution
 - real realtime chat
+- fresh-session journey persistence and cross-user row-isolation browser E2E

@@ -1,0 +1,6 @@
+{
+  "name": "yapyep-ai-gateway",
+  "private": true,
+  "type": "module",
+  "dependencies": { "node-appwrite": "^29.0.0", "zod": "^4.6.5" }
+}

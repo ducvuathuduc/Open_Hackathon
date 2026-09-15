@@ -1,0 +1,32 @@
+const string = (key, required = false, size = 255) => ({ key, type: "string", size, required });
+const text = (key, required = false) => ({ key, type: "text", required });
+const integer = (key, required = false) => ({ key, type: "integer", required });
+const datetime = (key, required = false) => ({ key, type: "datetime", required });
+const json = (key, required = false) => text(key, required);
+
+const owner = (id, columns, indexes = []) => ({ id, name: id, rowSecurity: true, columns, indexes, access: "owner" });
+const server = (id, columns, indexes = []) => ({ id, name: id, rowSecurity: true, columns, indexes, access: "server" });
+
+export const P0_TABLES = [
+  owner("student_profiles", [string("user_id", true, 36), string("display_name"), string("home_country_code", true, 2), string("host_country_code", true, 2), string("host_city"), string("university_id"), datetime("exchange_start"), datetime("exchange_end"), json("languages"), json("interests"), json("goals"), json("concerns"), string("exchange_stage"), datetime("created_at", true), datetime("updated_at", true)], [{ key: "user_id_unique", type: "unique", attributes: ["user_id"] }]),
+  owner("journeys", [string("journey_id", true, 36), string("user_id", true, 36), string("home_country_code", true, 2), string("host_country_code", true, 2), string("city"), string("university_id"), datetime("start_date"), datetime("end_date"), string("status", true), integer("is_current", true), datetime("updated_at", true)], [{ key: "journey_id_unique", type: "unique", attributes: ["journey_id"] }, { key: "user_current", type: "key", attributes: ["user_id", "is_current"] }]),
+  owner("my_dna_profiles", [string("user_id", true, 36), integer("explicitness", true), integer("formality", true), integer("hierarchy_sensitivity", true), integer("conflict_openness", true), integer("relationship_orientation", true), integer("time_structure", true), integer("participation_confidence", true), integer("uncertainty_tolerance", true), string("assessment_version", true), datetime("updated_at", true)], [{ key: "user_id_unique", type: "unique", attributes: ["user_id"] }]),
+  owner("user_task_progress", [string("user_id", true, 36), string("task_id", true), string("status", true), datetime("completed_at"), integer("saved", true), datetime("updated_at", true)], [{ key: "user_task_unique", type: "unique", attributes: ["user_id", "task_id"] }]),
+  owner("skill_profiles", [string("user_id", true, 36), integer("language_clarity", true), integer("tone", true), integer("intent_recognition", true), integer("context_awareness", true), integer("adaptability", true), integer("confidence", true), datetime("updated_at", true)], [{ key: "user_id_unique", type: "unique", attributes: ["user_id"] }]),
+  owner("lens_sessions", [string("session_id", true, 36), string("user_id", true, 36), string("journey_id"), string("input_type", true), string("context_key", true), string("detected_language"), text("literal_meaning"), json("likely_intents"), string("risk_level"), text("recommended_action"), string("confidence_label"), json("source_ids"), datetime("created_at", true)], [{ key: "session_id_unique", type: "unique", attributes: ["session_id"] }]),
+  owner("practice_sessions", [string("session_id", true, 36), string("user_id", true, 36), string("scenario_id", true), integer("attempt_number", true), text("transcript_summary"), json("score_json"), json("feedback_json"), integer("duration_seconds"), datetime("completed_at")], [{ key: "session_id_unique", type: "unique", attributes: ["session_id"] }]),
+  server("knowledge_sources", [string("source_id", true, 64), string("country_code", true, 2), string("city"), string("university_id"), string("title", true), string("url", true, 2048), string("source_type", true), string("authority_level", true, 1), string("language"), datetime("published_at"), datetime("checked_at", true), datetime("valid_until"), string("content_hash", true, 128), string("status", true)], [{ key: "source_id_unique", type: "unique", attributes: ["source_id"] }]),
+  server("knowledge_facts", [string("fact_id", true, 64), string("source_id", true, 64), string("country_code", true, 2), string("city"), string("university_id"), string("category", true), string("context_key", true), text("claim", true), text("actionable_advice"), string("authority_level", true, 1), string("confidence_label", true), datetime("checked_at", true), datetime("valid_until"), string("verification_status", true)], [{ key: "fact_id_unique", type: "unique", attributes: ["fact_id"] }, { key: "retrieval", type: "key", attributes: ["country_code", "category", "context_key"] }]),
+  owner("passport_progress", [string("user_id", true, 36), json("countries_experienced", true), integer("situations_mastered", true), integer("situations_total", true), json("language_practice", true), integer("verified_interactions", true), json("skills", true), json("quests", true), json("stamps", true), datetime("updated_at", true)], [{ key: "user_id_unique", type: "unique", attributes: ["user_id"] }]),
+  owner("student_social_profiles", [string("user_id", true, 36), string("display_name", true), string("avatar_file_id"), string("role", true), string("current_country", true, 2), string("city"), string("university_id"), string("major"), json("interests"), json("languages"), json("exchange_history"), integer("local_helper", true), integer("discoverable", true), datetime("updated_at", true)], [{ key: "user_id_unique", type: "unique", attributes: ["user_id"] }]),
+  owner("conversations", [string("conversation_id", true, 36), json("member_ids", true), datetime("created_at", true), datetime("updated_at", true)], [{ key: "conversation_id_unique", type: "unique", attributes: ["conversation_id"] }]),
+  owner("messages", [string("message_id", true, 36), string("conversation_id", true, 36), string("sender_id", true, 36), text("content", true), text("translated_content"), datetime("created_at", true), datetime("deleted_at")], [{ key: "message_id_unique", type: "unique", attributes: ["message_id"] }, { key: "conversation_created", type: "key", attributes: ["conversation_id", "created_at"] }]),
+];
+
+export function privateRowPermissions(userId) {
+  return [`read(\"user:${userId}\")`, `update(\"user:${userId}\")`, `delete(\"user:${userId}\")`];
+}
+
+export function tablePermissions(table) {
+  return table.access === "owner" ? ['create("users")'] : [];
+}

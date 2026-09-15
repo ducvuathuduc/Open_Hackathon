@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { JourneyProvider, useJourney, makeCustomJourney } from "./context/JourneyContext";
 import { NavProvider, useNav } from "./context/NavContext";
 import { AppShell, TopHeader, BottomNavigation, type TabKey } from "./components/shell";
@@ -13,6 +13,9 @@ import { Explore, PlaceDetail } from "./features/Explore";
 import { ConnectHome, MatchProfile, Chat, AskALocal } from "./features/Connect";
 import { Profile, Settings, Compass } from "./features/Profile";
 import { ensureAnonymousSession } from "./lib/appwrite/session";
+import { loadJourney } from "./lib/appwrite/journeyPersistence";
+import { fetchTaskProgress } from "./lib/appwrite/taskProgress";
+import { journeyById } from "./data/journeys";
 import type { PassportCard } from "./data/passports";
 import type { Place, PlaceCategory } from "./data/places";
 import type { Person } from "./data/people";
@@ -31,8 +34,23 @@ export default function App() {
 
 function Root() {
   const [onboarded, setOnboarded] = useState(false);
-  const { setCustom, setJourneyId } = useJourney();
+  const restored = useRef(false);
+  const { setCustom, setJourneyId, hydrate } = useJourney();
   const nav = useNav();
+
+  useEffect(() => {
+    if (restored.current) return;
+    restored.current = true;
+    void (async () => {
+      const session = await ensureAnonymousSession();
+      if (!session.ok) return;
+      const journey = await loadJourney(session.user.$id, journeyById("minh"));
+      if (!journey) return;
+      const tasks = await fetchTaskProgress(session.user.$id);
+      hydrate(session.user.$id, journey, tasks);
+      setOnboarded(true);
+    })();
+  }, [hydrate]);
 
   if (!onboarded)
     return (
