@@ -142,7 +142,33 @@ schemas expect (e.g. `passports.ts` already carries `officialSource`/`lastReview
 per the Tier A/B sourcing rule). The backend work is to add a persistence/AI layer *behind* the same
 interfaces, not to redesign the UI or data shapes.
 
-## 5. Explicit non-goals (per `AGENTS.md` §9 / `project-decisions.yaml`)
+## 5. Approved-but-unimplemented UI direction (ADR-003, 2026-09-15)
+
+Binding for all future UI work; code explicitly deferred until the product
+owner assigns the rework:
+
+- References: Qiao demoted to IA-only; per-area interaction references
+  frozen (Speak for Today, Praktika+Duolingo for YapSim, HelloTalk for
+  Connect chat, Unibuddy for matching, Duolingo mechanics without clutter
+  for progress, Airbnb-like map+sheet for Explore).
+- Tokens: monochrome set in config/project-decisions.yaml (#F7F7F5 /
+  #FFFFFF / #111111 / #6B6B68 / #E5E5E1 / black CTA / accent cobalt
+  only-when-needed / soft #EEF2FF / success #1F7A45 / warning #B7791F /
+  danger #C43B3B); flags are the main color; warm amber, tinted canvas,
+  and old ink/muted values retired.
+- Geometry/rules: 10-14px radius, 1px borders, shadows on overlays only;
+  full hard-rule list in ADR-003.
+- Responsive: real mobile/tablet/desktop layout replaces the centered
+  max-w-420px phone frame in src/components/shell.tsx AppShell (legacy as
+  of ADR-003).
+- Current code status: src/index.css theme tokens, shell.tsx phone frame,
+  and feature files still use the old palette/geometry (old hex values,
+  rounded-16/18/24px, shadow-card on cards, amber accents, emoji
+  quick-action icons, blue-gradient practice card, centered phone frame).
+  Nothing in src/ was changed by ADR-003.
+
+## 6. Explicit non-goals (per AGENTS.md section 9 / project-decisions.yaml)
+ (per `AGENTS.md` §9 / `project-decisions.yaml`)
 
 - Do not introduce a second state-management framework (Redux, Zustand, Jotai, MobX) — Context is
   sufficient for this scope; TanStack Query (server-cache) is a different concern, not a competing
