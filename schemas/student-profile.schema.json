@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StudentProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "userId",
+    "homeCountryCode",
+    "hostCountryCode",
+    "languages",
+    "interests",
+    "goals",
+    "exchangeStage"
+  ],
+  "properties": {
+    "userId": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "homeCountryCode": {
+      "type": "string"
+    },
+    "hostCountryCode": {
+      "type": "string"
+    },
+    "hostCity": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "universityId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "code",
+          "level"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "concerns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exchangeStage": {
+      "type": "string",
+      "enum": [
+        "pre_arrival",
+        "arrival",
+        "studying",
+        "returning",
+        "local"
+      ]
+    }
+  }
+}

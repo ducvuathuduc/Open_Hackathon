@@ -1,0 +1,221 @@
+version: '1.0'
+verified_at: '2026-09-15'
+policy:
+  allowed_status:
+  - verified_official
+  - candidate_verify_before_ingest
+  admin_fact_requires:
+  - authority A or B
+  - freshness metadata
+  - source URL
+  robots_and_terms: must be checked before crawling
+  people_scraping: forbidden
+sources:
+- id: asean-membership
+  country: ASEAN
+  categories:
+  - regional
+  url: https://asean.org/forging-a-new-era-timor-leste-admitted-into-asean/
+  status: verified_official
+  authority: A
+- id: asean-he-roadmap
+  country: ASEAN
+  categories:
+  - higher-education
+  - mobility
+  url: https://asean.org/asean-roadmap-2025-to-realise-a-common-higher-education-space-in-southeast-asia/
+  status: verified_official
+  authority: A
+- id: unesco-intercultural
+  country: GLOBAL
+  categories:
+  - culture
+  - communication
+  - research
+  url: https://unesdoc.unesco.org/ark:/48223/pf0000219768
+  status: verified_official
+  authority: B
+- id: bn-gov-immigration
+  country: BN
+  categories:
+  - immigration
+  - student-pass
+  url: https://www.gov.bn/services/Immigration.aspx
+  status: verified_official
+  authority: A
+- id: kh-moeys
+  country: KH
+  categories:
+  - education
+  url: https://moeys.gov.kh/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: kh-emis
+  country: KH
+  categories:
+  - education
+  url: https://emis.moeys.gov.kh/
+  status: verified_official
+  authority: A
+- id: kh-immigration-candidate
+  country: KH
+  categories:
+  - immigration
+  url: https://immigration.gov.kh/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: id-higher-ed
+  country: ID
+  categories:
+  - education
+  - higher-education
+  url: https://www.kemdiktisaintek.go.id/
+  status: verified_official
+  authority: A
+- id: id-dikti
+  country: ID
+  categories:
+  - education
+  - higher-education
+  url: https://dikti.kemdiktisaintek.go.id/
+  status: verified_official
+  authority: A
+- id: id-immigration-candidate
+  country: ID
+  categories:
+  - immigration
+  url: https://www.imigrasi.go.id/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: la-evisa
+  country: LA
+  categories:
+  - immigration
+  - visa
+  url: https://www.laoevisa.gov.la/
+  status: verified_official
+  authority: A
+- id: la-immigration-candidate
+  country: LA
+  categories:
+  - immigration
+  url: https://www.immigration.gov.la/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: my-immigration-student
+  country: MY
+  categories:
+  - immigration
+  - student-pass
+  url: https://www.imi.gov.my/index.php/en/main-services/pass/student-pass/
+  status: verified_official
+  authority: A
+- id: my-emgs
+  country: MY
+  categories:
+  - education
+  - international-student
+  - arrival
+  url: https://educationmalaysia.gov.my/
+  status: verified_official
+  authority: A
+- id: my-emgs-visa
+  country: MY
+  categories:
+  - student-pass
+  - visa
+  url: https://visa.educationmalaysia.gov.my/
+  status: verified_official
+  authority: A
+- id: mm-moe-candidate
+  country: MM
+  categories:
+  - education
+  url: https://www.moe.gov.mm/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: mm-evisa-candidate
+  country: MM
+  categories:
+  - immigration
+  - visa
+  url: https://evisa.moip.gov.mm/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: ph-ched-candidate
+  country: PH
+  categories:
+  - education
+  - higher-education
+  url: https://ched.gov.ph/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: ph-immigration-candidate
+  country: PH
+  categories:
+  - immigration
+  - student-visa
+  url: https://immigration.gov.ph/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: sg-ica-student
+  country: SG
+  categories:
+  - immigration
+  - student-pass
+  url: https://www.ica.gov.sg/reside/STP
+  status: verified_official
+  authority: A
+- id: sg-ica-ihl
+  country: SG
+  categories:
+  - immigration
+  - higher-education
+  url: https://www.ica.gov.sg/reside/STP/apply/ihl
+  status: verified_official
+  authority: A
+- id: th-mhesi-candidate
+  country: TH
+  categories:
+  - education
+  - higher-education
+  url: https://www.mhesi.go.th/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: th-immigration-candidate
+  country: TH
+  categories:
+  - immigration
+  url: https://www.immigration.go.th/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: tl-government
+  country: TL
+  categories:
+  - government
+  - higher-education
+  url: https://timor-leste.gov.tl/
+  status: verified_official
+  authority: A
+- id: tl-migration-candidate
+  country: TL
+  categories:
+  - immigration
+  url: https://migracao.gov.tl/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: vn-moet-candidate
+  country: VN
+  categories:
+  - education
+  url: https://moet.gov.vn/
+  status: candidate_verify_before_ingest
+  authority: A
+- id: vn-evisa-candidate
+  country: VN
+  categories:
+  - immigration
+  - visa
+  url: https://evisa.gov.vn/
+  status: candidate_verify_before_ingest
+  authority: A

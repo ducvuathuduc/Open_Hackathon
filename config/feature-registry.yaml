@@ -1,0 +1,57 @@
+version: '1.0'
+features:
+- id: journey
+  name: Journey Setup
+  priority: P0
+  owner: Foundation
+  done_when: 11-country directional journey persists and drives context
+- id: mydna
+  name: MyDNA
+  priority: P0
+  owner: Foundation
+  done_when: assessment creates personal profile independent of nationality
+- id: pairdna
+  name: PairDNA
+  priority: P0
+  owner: Foundation/Data
+  done_when: reverse country direction changes guidance
+- id: today
+  name: Today
+  priority: P0
+  owner: Frontend
+  done_when: journey/recent activity personalize dashboard
+- id: passport
+  name: Country Passport
+  priority: P0
+  owner: Data
+  done_when: source-backed student handbook renders for host
+- id: lens
+  name: YapLens
+  priority: P0
+  owner: Lens
+  done_when: real text+screenshot AI returns schema, sources, confidence
+- id: sim
+  name: YapSim
+  priority: P0
+  owner: Sim
+  done_when: complete scenario, feedback, retry, persistence
+- id: study
+  name: Study Copilot
+  priority: P0/P1
+  owner: Sim
+  done_when: Professor/Group modes work; extra modes optional
+- id: connect
+  name: Connect
+  priority: P1
+  owner: Social
+  done_when: opt-in profiles and real chat if implemented
+- id: explore
+  name: Explore
+  priority: P1
+  owner: Frontend/Data
+  done_when: student-specific places map works
+- id: passport-progress
+  name: ASEAN Passport
+  priority: P0
+  owner: Foundation
+  done_when: real activities update progress

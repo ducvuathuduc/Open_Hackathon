@@ -1,0 +1,26 @@
+reported_at: '2026-09-15'
+source: project status supplied by user; agents must verify repository
+build:
+  typecheck: passing
+  production_build: passing
+  preview_port_fix: reported fixed
+implemented_reported:
+- 13-step onboarding
+- 11 ASEAN country selector
+- 5 main tabs Today/Passport/Lens/Explore/Connect
+- Lens staged processing UI
+- Connect seeded matches and filters
+- directional PairDNA logic
+- 11 country DNA packs
+- places categories and generators
+- passport source/review fields
+- 6 study modes
+- state-matrix dev toggles
+not_fully_verified_reported:
+- Lens→Reply→YapSim→skill update full browser flow
+- Bank checklist→Explore→complete full flow
+- all seeded directional pair changes
+- measured touch targets/contrast
+- real Appwrite persistence/auth
+- real Gemini/RAG execution
+- real realtime chat

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YapSimFeedback",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scores",
+    "priorityFeedback",
+    "strengths",
+    "retryGoal"
+  ],
+  "properties": {
+    "scores": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "languageClarity",
+        "tone",
+        "intentRecognition",
+        "contextAwareness",
+        "adaptability",
+        "confidence"
+      ],
+      "properties": {
+        "languageClarity": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "tone": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "intentRecognition": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "contextAwareness": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "adaptability": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "confidence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "priorityFeedback": {
+      "type": "string"
+    },
+    "strengths": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "string"
+      }
+    },
+    "examples": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "userText",
+          "feedback"
+        ],
+        "properties": {
+          "userText": {
+            "type": "string"
+          },
+          "feedback": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "retryGoal": {
+      "type": "string"
+    },
+    "recommendedPractice": {
+      "type": "string"
+    }
+  }
+}

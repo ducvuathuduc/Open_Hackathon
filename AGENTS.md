@@ -39,3 +39,15 @@ This project uses **Tailwind CSS v4** through the `@tailwindcss/vite` plugin con
 - Use double quotes for strings containing apostrophes (`"We're here to help"`), or escape them in single-quoted strings. An unescaped apostrophe in a single-quoted string breaks the build.
 - Ensure JSX tags are closed and braces are balanced.
 - Export components as default exports.
+
+## Product and architecture spec (YapYep)
+
+This repository implements **YapYep — ASEAN Student Adaptation Network**. The frozen product/architecture rules below come from the authoritative agent spec pack under `docs/`, `config/`, and `schemas/`. When any instruction in this file conflicts with a request, follow the source-of-truth order in `README.md` and do not invent architecture, APIs, data models, or flows — stop and propose a decision instead.
+
+- **Non-negotiable:** do not migrate the frontend to Next.js/React Native/Flutter, add a second state-management framework, or add a second UI library during the hackathon.
+- **Frozen bottom navigation:** Today, Passport, Lens, Explore, Connect. YapSim/Study are contextual overlays, not tabs.
+- **Frozen backend (not yet implemented in this checkout):** Appwrite Auth/TablesDB/Storage/Realtime/Functions. AI: `gemini-3.7-flash` (primary), `gemini-3.1-flash-live-preview` (P1 voice), `gemini-embedding-2` (optional, post-P0).
+- **Core concepts — never rename or collapse:** `MyDNA`, `CountryDNA`, `ContextDNA`, `UniversityDNA`, `PairDNA`. Reverse directions (e.g. VN→SG vs SG→VN) must produce different guidance.
+- **Scope:** all 11 ASEAN countries; deep demo data for VN, SG, TH, ID, MY, PH.
+- **Trust/safety:** cultural guidance is contextual/probabilistic, never a deterministic nationality claim; administrative facts require a Tier A/B source with freshness metadata or must be marked `unverified`.
+- Full detail: `docs/00_PRODUCT_BRIEF.md` through `docs/12_RESEARCH_REFERENCES.md`, `config/project-decisions.yaml`, `config/current-state.yaml`, `config/feature-registry.yaml`. See `README.md` for the complete document index and precedence order.
