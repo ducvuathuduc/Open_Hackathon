@@ -15,11 +15,11 @@
 	"scripts": {
 		"setup": {
 			"enabled": true,
-			"command": "bash .hoplite/setup.sh"
+			"command": "corepack enable && pnpm install --frozen-lockfile"
 		},
 		"run": {
 			"enabled": true,
-			"command": "pnpm dev"
+			"command": "pnpm dev --host 0.0.0.0 --port 5173"
 		},
 		"archive": {
 			"enabled": true,
